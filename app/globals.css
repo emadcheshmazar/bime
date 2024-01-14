@@ -2,21 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: "Vazir";
+  src: url("/font/Vazirmatn-Regular.ttf") format("truetype");
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@font-face {
+  font-family: "Dana";
+  src: url("/font/Dana.ttf") format("truetype");
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: white;
+  min-width: 360px;
+  min-height: 605px;
+  height: 100vh;
+  background-color: #FFC453;
+}
+:root {
+  font-family: "Dana", "Vazir", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  /* display: flex;
+  justify-content: center; */
+  background-color: aliceblue;
 }
