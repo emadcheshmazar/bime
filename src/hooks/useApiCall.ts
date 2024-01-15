@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMethod } from "../api/axiosMethods";
+import { getMethod, postMethod } from "../api/axiosMethods";
 import { apiRoots } from "../api/apiURLs";
 
 const useApiCall = () => {
@@ -17,12 +17,26 @@ const useApiCall = () => {
       setLoading(false);
     }
   };
+  const postUserAddress = async (body: SaveOrderRequest) => {
+    try {
+      setLoading(true);
+      const addressResponse = await postMethod(
+        apiRoots.orderCompletion(),
+        body
+      );
+      setUserAddress(addressResponse);
+    } catch (error) {
+      console.error("Error fetching user address:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  useEffect(() => {
+  const fetchAddressHandler = () => {
     fetchUserAddress();
-  }, []);
+  };
 
-  return { userAddress, loading };
+  return { userAddress, loading, postUserAddress, fetchAddressHandler };
 };
 
 export default useApiCall;

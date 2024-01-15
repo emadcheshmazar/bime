@@ -18,4 +18,5 @@ export const strings = {
   Back: "بازگشت",
   select: "انتخاب",
   SuccessRegister: "اطلاعات شما با موفقیت ثبت شد.",
+  AddressSelectError: "یک آدرس انتخاب کنید",
 };

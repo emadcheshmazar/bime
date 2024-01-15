@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { strings } from "@/src/string";
 import Input from "../../atomic/Input/Input";
 import Modal from "../../composite/Modal";
-import Address from "../../composite/Address/Address";
 import { Radio, RadioChangeEvent } from "antd";
 
 function Registration({
@@ -19,6 +18,7 @@ function Registration({
   addressSelectChange,
   onCloseModal,
   handleSubmitAddress,
+  selectedAddressError,
 }: {
   userAddress: any;
   loading: boolean;
@@ -33,6 +33,7 @@ function Registration({
   addressSelectChange: (e: RadioChangeEvent) => void;
   onCloseModal: () => void;
   handleSubmitAddress: () => void;
+  selectedAddressError: string;
 }) {
   console.log(selectedAddressID, "selectedAddressID");
   console.log(userAddress, "userAddress");
@@ -51,22 +52,22 @@ function Registration({
             value={selectedAddressID}
             className="flex flex-col"
           >
-            {userAddress?.map((address: any) => (
-              <div key={address.id} className="flex flex-col my-2 mx-3">
-                <Radio value={address.id} className="m-2 h-[21px]">
-                  <span className="text-right text-black text-[14px] font-bold ">
-                    {address.name}
+            {loading ? (
+              <span>loading</span>
+            ) : (
+              userAddress?.map((address: any) => (
+                <div key={address.id} className="flex flex-col my-2 mx-3">
+                  <Radio value={address.id} className="m-2 h-[21px]">
+                    <span className="text-right text-black text-[14px] font-bold ">
+                      {address.name}
+                    </span>
+                  </Radio>
+                  <span className="text-right text-[#757575} text-[12px] px-8 -mt-2">
+                    {address.details}
                   </span>
-                </Radio>
-                <span className="text-right text-[#757575} text-[12px] px-8 -mt-2">
-                  {address.details}
-                </span>
-              </div>
-            ))}
-            {/* <Radio value={1}>A</Radio>
-            <Radio value={2}>B</Radio>
-            <Radio value={3}>C</Radio>
-            <Radio value={4}>D</Radio> */}
+                </div>
+              ))
+            )}
           </Radio.Group>
         }
       </Modal>
@@ -102,13 +103,17 @@ function Registration({
       </div>
       <hr className="min-w-[320px] w-[90%] h-[1px] mt-[8px] mb-[16px] tablet:mr-4" />
 
-      <div className="flex w-full h-[56px] items-center justify-start">
+      <div className="flex w-full h-[56px] items-center justify-start relative">
         {!selectedAddressID && (
           <span className="mr-5 text-black text-right font-[16px] font-400">
             {strings.AddressSelect}
           </span>
         )}
+        <span className="text-[12px] text-red-500 pr-5 pt-3 absolute bottom-0">
+          {selectedAddressError}
+        </span>
       </div>
+
       <div className="w-full flex flex-wrap justify-start mx-5 items-start mt-[24px]">
         {selectedAddressID ? (
           <h4 className="text-[14px] h-[48px] font-bold mt-[-80px]">
@@ -143,7 +148,7 @@ function Registration({
       </div>
       <span
         className={`w-full text-[10px] text-left mx-3 ${
-          selectedAddressID ? "pt-[3px]" : 'pt-[90px]'
+          selectedAddressID ? "pt-[3px]" : "pt-[90px]"
         }`}
       >
         Created by Emad Cheshmazar

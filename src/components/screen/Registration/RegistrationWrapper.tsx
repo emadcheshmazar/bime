@@ -7,14 +7,23 @@ import { RadioChangeEvent } from "antd";
 import Succession from "../Succession";
 
 const RegistrationWrapper: React.FC = () => {
-  const { userAddress, loading } = useApiCall();
+  const { userAddress, loading, postUserAddress, fetchAddressHandler } =
+    useApiCall();
   const [addressModalOpen, setAdderssModalOpen] = useState(false);
-  const [selectedAddressID, setSelectedAddressID] = useState("");
+  const [selectedAddressID, setSelectedAddressID] = useState<string>("");
+  const [selectedAddressError, setSelectedAddressError] = useState("");
   const [successRegister, setSuccessRegister] = useState(false);
 
+  const initialUserInfo: FormState = {
+    nationalID: "",
+    phoneNumber: "",
+    nationalIDError: null,
+    phoneNumberError: null,
+  };
+
   const addressSelectChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
     setSelectedAddressID(e.target.value);
+    setSelectedAddressError("");
   };
 
   const onCloseModal = () => {
@@ -24,14 +33,6 @@ const RegistrationWrapper: React.FC = () => {
 
   const handleSubmitAddress = () => {
     setAdderssModalOpen(false);
-  };
-
-  console.log(userAddress, "userAddressuserAddress");
-  const initialUserInfo: FormState = {
-    nationalID: "",
-    phoneNumber: "",
-    nationalIDError: null,
-    phoneNumberError: null,
   };
 
   const reducer = (state: FormState, action: FormAction): FormState => {
@@ -106,7 +107,7 @@ const RegistrationWrapper: React.FC = () => {
   };
 
   const openSelectAddress = () => {
-    console.log("modal open");
+    fetchAddressHandler();
     setAdderssModalOpen(true);
   };
 
@@ -150,20 +151,28 @@ const RegistrationWrapper: React.FC = () => {
         error: strings.errors.Required,
       });
     }
+    if (!selectedAddressID) {
+      setSelectedAddressError(strings.AddressSelectError);
+    }
     if (
       isNationalIDValid &&
       isPhoneNumberValid &&
       userInfo.nationalID.trim() &&
-      userInfo.phoneNumber.trim()
+      userInfo.phoneNumber.trim() &&
+      selectedAddressID
     ) {
-      setSuccessRegister(true);
+      postUserAddress({
+        nationalId: userInfo.nationalID,
+        phoneNumber: userInfo.phoneNumber,
+        addressId: selectedAddressID,
+      });
     }
   };
 
   return (
     <>
       {successRegister ? (
-        <Succession goBackHandler={goBackHandler}/>
+        <Succession goBackHandler={goBackHandler} />
       ) : (
         <Registration
           userAddress={userAddress}
@@ -179,6 +188,7 @@ const RegistrationWrapper: React.FC = () => {
           addressSelectChange={addressSelectChange}
           onCloseModal={onCloseModal}
           handleSubmitAddress={handleSubmitAddress}
+          selectedAddressError={selectedAddressError}
         />
       )}
     </>
