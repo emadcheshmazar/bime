@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import Modal from "./Modal";
 import { Button, Drawer, Radio, Space } from "antd";
 import type { DrawerProps, RadioChangeEvent } from "antd";
@@ -6,30 +6,26 @@ import type { DrawerProps, RadioChangeEvent } from "antd";
 const ModalWrapper = ({
   openSelectAddress,
   modalOpen,
+  children,
+  onClose,
+  handleSubmitAddress,
 }: {
   openSelectAddress: () => void;
   modalOpen: boolean;
+  children: ReactNode;
+  onClose: () => void;
+  handleSubmitAddress: () => void;
 }) => {
-  const [open, setOpen] = useState(modalOpen);
-  const [placement, setPlacement] =
-    useState<DrawerProps["placement"]>("bottom");
-
-  const onChange = (e: RadioChangeEvent) => {
-    setPlacement(e.target.value);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Modal
       open={modalOpen}
-      onChange={onChange}
-      placement={placement}
-      showDrawer={openSelectAddress}
-      onClose={openSelectAddress}
-    />
+      placement={"bottom"}
+      onClose={onClose}
+      title={""}
+      handleSubmitAddress={handleSubmitAddress}
+    >
+      {children}
+    </Modal>
   );
 };
 

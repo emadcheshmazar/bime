@@ -1,0 +1,7 @@
+.ant-drawer-header-title {
+  display: flex !important;
+  justify-content: end !important;
+}
+.ant-drawer-body {
+  padding: 0 !important;
+}

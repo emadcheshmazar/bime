@@ -5,6 +5,7 @@ interface SaveOrderRequest {
 }
 
 interface Address {
+  desciption: string;
   id: string;
   name: string;
   details: string;

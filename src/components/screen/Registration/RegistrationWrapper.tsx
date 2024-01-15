@@ -3,11 +3,30 @@ import React, { ChangeEvent, useEffect, useReducer, useState } from "react";
 import Registration from "./Registration";
 import useApiCall from "@/src/hooks/useApiCall";
 import { strings } from "@/src/string";
+import { RadioChangeEvent } from "antd";
+import Succession from "../Succession";
 
 const RegistrationWrapper: React.FC = () => {
   const { userAddress, loading } = useApiCall();
   const [addressModalOpen, setAdderssModalOpen] = useState(false);
+  const [selectedAddressID, setSelectedAddressID] = useState("");
+  const [successRegister, setSuccessRegister] = useState(false);
 
+  const addressSelectChange = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setSelectedAddressID(e.target.value);
+  };
+
+  const onCloseModal = () => {
+    setSelectedAddressID("");
+    setAdderssModalOpen(false);
+  };
+
+  const handleSubmitAddress = () => {
+    setAdderssModalOpen(false);
+  };
+
+  console.log(userAddress, "userAddressuserAddress");
   const initialUserInfo: FormState = {
     nationalID: "",
     phoneNumber: "",
@@ -88,10 +107,17 @@ const RegistrationWrapper: React.FC = () => {
 
   const openSelectAddress = () => {
     console.log("modal open");
-    setAdderssModalOpen((prevState) => !prevState);
+    setAdderssModalOpen(true);
+  };
+
+  const selectAddressHandler = (id: string) => {
+    console.log(id);
+  };
+
+  const goBackHandler = () => {
+    setSuccessRegister(false);
   };
   const handleSubmit = () => {
-    // Validation logic goes here
     const nationalIDPattern = /^\d{10}$/;
     const phoneNumberPattern = /^(09\d{9}|9\d{9})$/;
 
@@ -112,8 +138,6 @@ const RegistrationWrapper: React.FC = () => {
       });
     }
 
-    // Check for empty fields only if both patterns are valid
-
     if (!userInfo.nationalID.trim()) {
       dispatch({
         type: "SET_NATIONAL_ID_ERROR",
@@ -126,19 +150,38 @@ const RegistrationWrapper: React.FC = () => {
         error: strings.errors.Required,
       });
     }
+    if (
+      isNationalIDValid &&
+      isPhoneNumberValid &&
+      userInfo.nationalID.trim() &&
+      userInfo.phoneNumber.trim()
+    ) {
+      setSuccessRegister(true);
+    }
   };
 
   return (
-    <Registration
-      userAddress={userAddress}
-      loading={loading}
-      userInfoState={userInfo}
-      handleNationalIDChange={handleNationalIDChange}
-      handlePhoneNumberChange={handlePhoneNumberChange}
-      handleSubmit={handleSubmit}
-      openSelectAddress={openSelectAddress}
-      addressModalOpen={addressModalOpen}
-    />
+    <>
+      {successRegister ? (
+        <Succession goBackHandler={goBackHandler}/>
+      ) : (
+        <Registration
+          userAddress={userAddress}
+          loading={loading}
+          userInfoState={userInfo}
+          handleNationalIDChange={handleNationalIDChange}
+          handlePhoneNumberChange={handlePhoneNumberChange}
+          handleSubmit={handleSubmit}
+          openSelectAddress={openSelectAddress}
+          addressModalOpen={addressModalOpen}
+          selectAddressHandler={selectAddressHandler}
+          selectedAddressID={selectedAddressID}
+          addressSelectChange={addressSelectChange}
+          onCloseModal={onCloseModal}
+          handleSubmitAddress={handleSubmitAddress}
+        />
+      )}
+    </>
   );
 };
 

@@ -15,4 +15,7 @@ export const strings = {
   AddressSelect: "لطفا آدرسی را که می‌خواهید روی بیمه‌نامه درج شود، وارد کنید",
   AddressSelectBtn: "انتخاب از آدرس‌های من",
   Continue: "تایید و ادامه",
+  Back: "بازگشت",
+  select: "انتخاب",
+  SuccessRegister: "اطلاعات شما با موفقیت ثبت شد.",
 };
