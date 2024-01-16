@@ -1,9 +1,9 @@
+import { AxiosResponse } from "axios";
 import axiosInstance from "./axiosSetup";
 
-//GET request
-export const getMethod = async (url: string) => {
+export const getMethod = async (url: string): Promise<any> => {
   try {
-    const response = await axiosInstance.get(url);
+    const response: AxiosResponse = await axiosInstance.get(url);
     console.log("OK");
     return response.data;
   } catch (error) {
@@ -12,10 +12,9 @@ export const getMethod = async (url: string) => {
   }
 };
 
-//POST request
-export const postMethod = async (url: string, body: SaveOrderRequest) => {
+export const postMethod = async (url: string, body: SaveOrderRequest): Promise<any> => {
   try {
-    const response = await axiosInstance.post(url, body);
+    const response: AxiosResponse = await axiosInstance.post(url, body);
     console.log("OK");
     return response.data;
   } catch (error) {

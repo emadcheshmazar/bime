@@ -107,7 +107,8 @@ const RegistrationWrapper: React.FC = () => {
   };
 
   const openSelectAddress = () => {
-    fetchAddressHandler();
+    //in case we intend to fetch address every time user open drawwer
+    // fetchAddressHandler();
     setAdderssModalOpen(true);
   };
 
@@ -118,12 +119,22 @@ const RegistrationWrapper: React.FC = () => {
   const goBackHandler = () => {
     setSuccessRegister(false);
   };
+
+  function isValidIranianNationalCode(input: string) {
+    if (!/^\d{10}$/.test(input)) return false;
+    const check = +input[9];
+    const sum =
+      input
+        .split("")
+        .slice(0, 9)
+        .reduce((acc, x, i) => acc + +x * (10 - i), 0) % 11;
+    return sum < 2 ? check === sum : check + sum === 11;
+  }
   const handleSubmit = () => {
-    const nationalIDPattern = /^\d{10}$/;
     const phoneNumberPattern = /^(09\d{9}|9\d{9})$/;
 
-    const isNationalIDValid = nationalIDPattern.test(userInfo.nationalID);
     const isPhoneNumberValid = phoneNumberPattern.test(userInfo.phoneNumber);
+    const isNationalIDValid = isValidIranianNationalCode(userInfo.nationalID);
 
     if (!isNationalIDValid) {
       dispatch({

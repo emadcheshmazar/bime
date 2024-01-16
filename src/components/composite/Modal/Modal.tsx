@@ -1,33 +1,29 @@
-import React, { ReactNode } from "react";
-import "./ModalStyles.css";
+import React, { ReactNode, useState } from "react";
 import { Button, Drawer, Radio, Space } from "antd";
 import type { DrawerProps, RadioChangeEvent } from "antd";
 import { strings } from "@/src/string";
 
-function Modal({
-  open,
-  placement,
-  onClose,
-  title,
+const Modal = ({
+  openSelectAddress,
+  modalOpen,
   children,
+  onClose,
   handleSubmitAddress,
 }: {
-  open: boolean;
-  placement: DrawerProps["placement"];
-  onClose: () => void;
-  title: string;
+  openSelectAddress: () => void;
+  modalOpen: boolean;
   children: ReactNode;
+  onClose: () => void;
   handleSubmitAddress: () => void;
-}) {
+}) => {
   return (
     <Drawer
-      title={title}
-      placement={placement}
+      title={''}
+      placement={'bottom'}
       width={500}
       onClose={onClose}
-      open={open}
+      open={modalOpen}
       className="drawer"
-    
     >
       <div className="flex flex-wrap h-full w-full">
         <div>{children}</div>
@@ -45,6 +41,6 @@ function Modal({
       </div>
     </Drawer>
   );
-}
+};
 
 export default Modal;

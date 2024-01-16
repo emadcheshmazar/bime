@@ -9,6 +9,10 @@ export const strings = {
     nationalID: "کد ملی",
     phoneNumber: "شماره تلفن همراه",
   },
+  alert: {
+    success: "وفقیت آمیز بود",
+    error: "خطا",
+  },
   DataEntryTitle: "تکمیل اطلاعات",
   DataEntry: "لطفا اطلاعات شخصی مالک خودرو را وارد کنید:",
   AddressTitle: "آدرس جهت درج روی بیمه نامه",

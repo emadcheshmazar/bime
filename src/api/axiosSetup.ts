@@ -1,4 +1,5 @@
 import axios from "axios";
+import Alert from "../components/atomic/Alert/Alert";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 

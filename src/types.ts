@@ -34,3 +34,6 @@ interface InputProps {
   value: string;
   onChange: (e: CombinedEvent | null) => void;
 }
+
+type alertTitle = 'موفقیت آمیز' | 'خطا'
+type alertType = 'success' | 'error';

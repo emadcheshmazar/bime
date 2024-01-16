@@ -36,6 +36,10 @@ const useApiCall = () => {
     fetchUserAddress();
   };
 
+  useEffect(() => {
+    fetchUserAddress()
+  }, [])
+
   return { userAddress, loading, postUserAddress, fetchAddressHandler };
 };
 

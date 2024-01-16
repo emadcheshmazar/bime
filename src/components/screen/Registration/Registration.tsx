@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { strings } from "@/src/string";
 import Input from "../../atomic/Input/Input";
-import Modal from "../../composite/Modal";
-import { Radio, RadioChangeEvent } from "antd";
+import Modal from "../../composite/Modal/Modal";
+import { Radio, RadioChangeEvent, Spin } from "antd";
 
 function Registration({
   userAddress,
@@ -35,8 +35,6 @@ function Registration({
   handleSubmitAddress: () => void;
   selectedAddressError: string;
 }) {
-  console.log(selectedAddressID, "selectedAddressID");
-  console.log(userAddress, "userAddress");
 
   return (
     <div className="flex flex-wrap bg-white justify-center tablet:justify-start items-start w-full ">
@@ -53,7 +51,9 @@ function Registration({
             className="flex flex-col"
           >
             {loading ? (
-              <span>loading</span>
+              <div className="flex justify-center items-center">
+                <Spin size="large" className="" />
+              </div>
             ) : (
               userAddress?.map((address: any) => (
                 <div key={address.id} className="flex flex-col my-2 mx-3">
