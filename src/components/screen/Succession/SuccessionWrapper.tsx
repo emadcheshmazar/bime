@@ -2,8 +2,8 @@
 import React from "react";
 import Succession from "./Succession";
 
-function SuccessionWrapper({ goBackHandler }: { goBackHandler: () => void }) {
-  return <Succession goBackHandler={goBackHandler} />;
+function SuccessionWrapper({ goBackHandler, message }: { goBackHandler: () => void, message: string }) {
+  return <Succession goBackHandler={goBackHandler} message={message} />;
 }
 
 export default SuccessionWrapper;

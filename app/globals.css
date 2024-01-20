@@ -13,8 +13,8 @@
 
 body {
   min-width: 360px;
-  min-height: 605px;
-  height: 100vh;
+  /* min-height: 605px; */
+  /* height: 100vh; */
   background-color: #FFC453;
 }
 :root {

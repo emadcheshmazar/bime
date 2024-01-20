@@ -7,7 +7,7 @@ import { RadioChangeEvent } from "antd";
 import Succession from "../Succession";
 
 const RegistrationWrapper: React.FC = () => {
-  const { userAddress, loading, postUserAddress, fetchAddressHandler } =
+  const { userAddress, loading, postUserAddress, successfullMessage } =
     useApiCall();
   const [addressModalOpen, setAdderssModalOpen] = useState(false);
   const [selectedAddressID, setSelectedAddressID] = useState<string>("");
@@ -20,6 +20,14 @@ const RegistrationWrapper: React.FC = () => {
     nationalIDError: null,
     phoneNumberError: null,
   };
+
+
+  useEffect(() => {
+    if(successfullMessage === 'order saved successfully') {
+      setSuccessRegister(true)
+    } 
+
+  }, [successfullMessage])
 
   const addressSelectChange = (e: RadioChangeEvent) => {
     setSelectedAddressID(e.target.value);
@@ -87,7 +95,7 @@ const RegistrationWrapper: React.FC = () => {
   };
 
   const handleNationalIDChange = (e: CombinedEvent | null) => {
-    const value = (e as ChangeEvent<HTMLInputElement>).target.value;
+    const value = (e as ChangeEvent<HTMLInputElement>).target.value.trim();
     dispatch({ type: "CHANGE_NATIONAL_ID", value: value || "" });
 
     handleKeyPress(
@@ -97,7 +105,7 @@ const RegistrationWrapper: React.FC = () => {
   };
 
   const handlePhoneNumberChange = (e: CombinedEvent | null) => {
-    const value = (e as ChangeEvent<HTMLInputElement>).target.value;
+    const value = (e as ChangeEvent<HTMLInputElement>).target.value.trim();
     dispatch({ type: "CHANGE_PHONE_NUMBER", value: value || "" });
 
     handleKeyPress(
@@ -130,6 +138,8 @@ const RegistrationWrapper: React.FC = () => {
         .reduce((acc, x, i) => acc + +x * (10 - i), 0) % 11;
     return sum < 2 ? check === sum : check + sum === 11;
   }
+
+
   const handleSubmit = () => {
     const phoneNumberPattern = /^(09\d{9}|9\d{9})$/;
 
@@ -165,6 +175,7 @@ const RegistrationWrapper: React.FC = () => {
     if (!selectedAddressID) {
       setSelectedAddressError(strings.AddressSelectError);
     }
+    
     if (
       isNationalIDValid &&
       isPhoneNumberValid &&
@@ -176,14 +187,17 @@ const RegistrationWrapper: React.FC = () => {
         nationalId: userInfo.nationalID,
         phoneNumber: userInfo.phoneNumber,
         addressId: selectedAddressID,
-      });
+      }).then(() => {
+        setSuccessRegister(true)
+      })
     }
   };
+
 
   return (
     <>
       {successRegister ? (
-        <Succession goBackHandler={goBackHandler} />
+        <Succession goBackHandler={goBackHandler} message={successfullMessage}/>
       ) : (
         <Registration
           userAddress={userAddress}

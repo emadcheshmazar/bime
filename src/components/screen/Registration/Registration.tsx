@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { strings } from "@/src/string";
 import Input from "../../atomic/Input/Input";
 import Modal from "../../composite/Modal/Modal";
-import { Radio, RadioChangeEvent, Spin } from "antd";
+import {Radio, RadioChangeEvent, Spin } from "antd";
 
 function Registration({
   userAddress,
@@ -37,7 +37,7 @@ function Registration({
 }) {
 
   return (
-    <div className="flex flex-wrap bg-white justify-center tablet:justify-start items-start w-full ">
+    <div className="flex flex-wrap bg-white justify-center tablet:justify-start items-start w-full h-screen">
       <Modal
         openSelectAddress={openSelectAddress}
         modalOpen={addressModalOpen}
@@ -72,7 +72,7 @@ function Registration({
         }
       </Modal>
       <div className="w-full h-[56px] shadow-lg mb-[32px]">
-        <span className="w-full h-full flex justify-start items-center pr-4 font-[18px] font-bold text-[black]">
+        <span className="w-full h-full flex justify-start items-center pr-4 text-[18px] font-bold text-[black]">
           {strings.DataEntryTitle}
         </span>
       </div>
@@ -97,7 +97,7 @@ function Registration({
         />
       </div>
       <div className="w-full h-[28px] flex items-center justify-start">
-        <span className="h-[28px] flex items-center text-right mr-5 font-[16px] font-bold">
+        <span className="h-[28px] flex items-center text-right mr-5 text-[16px] font-bold">
           {strings.AddressTitle}
         </span>
       </div>
@@ -109,7 +109,7 @@ function Registration({
             {strings.AddressSelect}
           </span>
         )}
-        <span className="text-[12px] text-red-500 pr-5 pt-3 absolute bottom-0">
+        <span className="text-[12px] text-red-500 pr-5  absolute bottom-[-15px]">
           {selectedAddressError}
         </span>
       </div>
@@ -128,28 +128,27 @@ function Registration({
             onClick={openSelectAddress}
             className="min-w-[320px] w-full h-[48px] bg-[#FFC453]"
           >
-            <span className="text-center w-full font-[16px] font-bold">
+            <span className="text-center w-full text-[16px] font-bold">
               {strings.AddressSelectBtn}
             </span>
           </button>
         )}
-        <div className="w-full flex justify-end items-center mt-[40px] pb-[121px]">
+        <div className="w-full flex justify-end items-center mt-[40px] pb-[10px]">
           <button
             onClick={handleSubmit}
             className={`min-w-[140px] h-[48px] bg-black ${
               selectedAddressID && "mt-[136px]"
-            }`}
+            } ${loading ? 'bg-gray-900': ' bg-black'} disabled:cursor-progress`}
+            disabled={loading}
           >
-            <span className="text-center w-full font-[16px] font-bold text-white">
-              {strings.Continue}
+            <span className="text-center w-full text-[16px] font-bold text-white">
+              {loading ? <Spin className="saturate-0"/> : strings.Continue}
             </span>
           </button>
         </div>
       </div>
       <span
-        className={`w-full text-[10px] text-left mx-3 ${
-          selectedAddressID ? "pt-[3px]" : "pt-[90px]"
-        }`}
+        className={`w-full text-[10px] text-right mx-5`}
       >
         Created by Emad Cheshmazar
       </span>
